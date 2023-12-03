@@ -7,7 +7,7 @@ import path from "path";
 // treb7uchet
 // `;
 
-const text = fs.readFileSync(path.join(__dirname, "./part01.txt"), {
+const text = fs.readFileSync(path.join(__dirname, "./input.txt"), {
   encoding: "utf-8",
 });
 

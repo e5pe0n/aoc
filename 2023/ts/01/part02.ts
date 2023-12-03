@@ -12,7 +12,7 @@ import path from "path";
 // `.trim();
 
 const text = fs
-  .readFileSync(path.join(__dirname, "./part02.txt"), { encoding: "utf-8" })
+  .readFileSync(path.join(__dirname, "./input.txt"), { encoding: "utf-8" })
   .trim();
 
 const d = {
