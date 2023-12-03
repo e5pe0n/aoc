@@ -18,8 +18,7 @@ const sum = text
   .split("\n")
   .map((s) => {
     const ns = s.match(RE)!;
-    console.log(ns[0]! + (ns.at(-1) ?? ns[0]!));
-    return Number(ns[0]! + (ns.at(-1) ?? ns[0]!));
+    return Number(ns[0]! + ns.at(-1));
   })
   .reduce((acc, v) => acc + v, 0);
 
