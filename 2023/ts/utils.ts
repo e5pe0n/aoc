@@ -12,6 +12,15 @@ export function range(stop: number): number[];
  *
  * @example
  * ```
+ * range(1, 4);  // [1, 2, 3]
+ * ```
+ */
+export function range(start: number, stop: number): number[];
+/**
+ * Create a new Array contains from `start` to `stop`(exclusive) by `step` in order.
+ *
+ * @example
+ * ```
  * range(0, 5, 2);  // [0, 2, 4]
  * range(5, 0, -2); // [5, 3, 1]
  * ```
