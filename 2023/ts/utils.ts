@@ -43,3 +43,7 @@ export function range(start: number, stop?: number, step?: number): number[] {
     ? []
     : Array.from(new Array(len), (_, i) => _start + i * _step);
 }
+
+export function zip<T, U>(xs: T[], ys: U[]): [T, U][] {
+  return range(Math.min(xs.length, ys.length)).map((i) => [xs[i]!, ys[i]!]);
+}
