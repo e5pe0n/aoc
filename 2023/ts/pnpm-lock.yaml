@@ -8,6 +8,9 @@ dependencies:
   '@datastructures-js/priority-queue':
     specifier: ^6.3.0
     version: 6.3.0
+  '@datastructures-js/queue':
+    specifier: ^4.2.3
+    version: 4.2.3
 
 devDependencies:
   '@types/node':
@@ -33,6 +36,10 @@ packages:
     resolution: {integrity: sha512-bJkryPys8zVYMCSjyBPYzJlw5V2kMeOYzGHRBXiGkwqTv8vZ/Ux5RO736T8Y6l3cH+ocbQV9UxlsFwA9qI4VhA==}
     dependencies:
       '@datastructures-js/heap': 4.3.2
+    dev: false
+
+  /@datastructures-js/queue@4.2.3:
+    resolution: {integrity: sha512-GWVMorC/xi2V2ta+Z/CPgPGHL2ZJozcj48g7y2nIX5GIGZGRrbShSHgvMViJwHJurUzJYOdIdRZnWDRrROFwJA==}
     dev: false
 
   /@esbuild/android-arm64@0.18.20:
