@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { range } from "../utils";
+import { Queue } from "@datastructures-js/queue";
 
 {
   // const text = `1,0,1~1,2,1
@@ -76,24 +77,20 @@ import { range } from "../utils";
   }
 
   let sum = 0;
-  const involveds = supportings.map((v) => new Set<number>());
-  for (let i = supportings.length - 1; i >= 0; --i) {
-    for (const j of supportings[i]!) {
-      involveds[i]!.add(j);
-      for (const k of involveds[j]!) {
-        involveds[i]!.add(k);
+  for (let i = 0; i < bricks.length; ++i) {
+    const involved = new Set<number>([i]);
+    const q = new Queue(Array.from(supportings[i]!));
+    while (!q.isEmpty()) {
+      const u = q.dequeue();
+      if (Array.from(supporteds[u]!).every((v) => involved.has(v))) {
+        involved.add(u);
+        for (const v of supportings[u]!) {
+          q.enqueue(v);
+        }
       }
     }
-    if (
-      !(
-        supportings[i]!.size === 0 ||
-        Array.from(supportings[i]!).every((v) => supporteds[v]!.size >= 2)
-      )
-    ) {
-      console.log(i, involveds[i]!.size);
-      sum += involveds[i]!.size;
-    }
+    sum += involved.size - 1;
   }
 
-  console.log(sum); // 89108: wrong
+  console.log(sum); // 60963
 }
