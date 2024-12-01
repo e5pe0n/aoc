@@ -1,0 +1,14 @@
+{
+  "type": "module",
+  "scripts": {
+    "dev": "tsx",
+    "fix": "biome check --write",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@types/node": "22",
+    "tsx": "^4.19.2",
+    "vitest": "^2.1.6"
+  }
+}
