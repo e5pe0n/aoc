@@ -15,11 +15,13 @@ export function solve(filename: string): number {
     left.push(Number.parseInt(l));
     right.push(Number.parseInt(r));
   }
-  const sortedLeft = left.sort((a, b) => a - b);
-  const sortedRight = right.sort((a, b) => a - b);
+  const m = new Map<number, number>();
+  for (const r of right) {
+    m.set(r, (m.get(r) ?? 0) + 1);
+  }
   let sum = 0;
-  for (let i = 0; i < sortedLeft.length; ++i) {
-    sum += Math.abs(sortedLeft[i] - sortedRight[i]);
+  for (let i = 0; i < left.length; ++i) {
+    sum += left[i]! * (m.get(left[i]!) ?? 0);
   }
   return sum;
 }
