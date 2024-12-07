@@ -18,8 +18,8 @@ describe("part02", () => {
     const res = solve02("input-example.txt");
     expect(res).toBe(6);
   });
-  test("input", () => {
+  test.only("input", () => {
     const res = solve02("input.txt");
-    expect(res).not.toBe(728);
+    expect(res).toBe(1748);
   });
 });

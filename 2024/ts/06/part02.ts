@@ -63,102 +63,74 @@ export function solve(filename: string): number {
     return 0 <= i && i < H && 0 <= j && j < W;
   }
 
-  // function windStart() {
-  //   while (inMap(start[0], start[1]) && M[start[0]]![start[1]] !== "#") {
-  //     start[0] -= dd["^"][0];
-  //     start[1] -= dd["^"][1];
-  //   }
-  //   start[0] += dd["^"][0];
-  //   start[1] += dd["^"][1];
-  // }
-
-  // windStart();
-
-  // console.log("start:", start);
-
-  const visited = range(H).map(() => range(W).map(() => new Set<Direction>()));
-  const turned = range(H).map(() => range(W).map(() => false));
-  const ranks = range(H).map(() => range(W).map(() => 0));
+  const visited = range(H).map(() => range(W).map(() => false));
 
   function bfs() {
-    const q: (Gurd & { rank: number })[] = [
-      { i: start[0], j: start[1], d: "^", rank: 0 },
-    ];
+    const q: Gurd[] = [{ i: start[0], j: start[1], d: "^" }];
     while (q.length > 0) {
-      const { i, j, d, rank } = q.pop()!;
+      const { i, j, d } = q.pop()!;
       if (!inMap(i, j)) {
         break;
       }
       if (M[i]![j] === "#") {
         break;
       }
-      visited[i]![j]!.add(d);
-      ranks[i]![j]! = rank;
+      visited[i]![j] = true;
       const di = dd[d][0];
       const dj = dd[d][1];
       let nd = d;
       if (inMap(i + di, j + dj) && M[i + di]![j + dj] === "#") {
         nd = turnRight(d);
-        turned[i]![j] = true;
       }
-      visited[i]![j]!.add(nd);
-      q.push({ i: i + dd[nd][0], j: j + dd[nd][1], d: nd, rank: rank + 1 });
+      q.push({ i: i + dd[nd][0], j: j + dd[nd][1], d: nd });
     }
   }
 
   bfs();
 
-  console.log("visited:", visited);
-
-  const obss = range(H).map(() => range(W).map(() => false));
-
-  for (let i = 0; i < H; ++i) {
-    for (let j = 0; j < W; ++j) {
-      if (turned[i]![j]) {
-        for (const d of visited[i]![j]!.values()) {
-          if (!visited[i]![j]!.has(turnRight(d))) {
-            continue;
-          }
-          let ni = i - dd[d][0];
-          let nj = j - dd[d][1];
-          while (inMap(ni, nj)) {
-            for (const d2 of visited[ni]![nj]!.values()) {
-              if (turnRight(d2) === d && ranks[i]![j]! < ranks[ni]![nj]!) {
-                const ni2 = ni + dd[d2][0];
-                const nj2 = nj + dd[d2][1];
-                if (inMap(ni2, nj2) && M[ni2]![nj2] !== "#") {
-                  // if (ni2 === 1 && nj2 === 7) {
-                  //   console.log(
-                  //     `i: ${i}, j: ${j}, ni: ${ni}, nj: ${nj}, d: ${d}, d2: ${d2}, ni2: ${ni2}, nj2: ${nj2}`,
-                  //   );
-                  // }
-                  obss[ni2]![nj2] = true;
-                }
-              }
-            }
-            ni -= dd[d][0];
-            nj -= dd[d][1];
-          }
-        }
+  function inLoop(): boolean {
+    const visited2 = range(H).map(() =>
+      range(W).map(() => new Set<Direction>()),
+    );
+    const q: Gurd[] = [{ i: start[0], j: start[1], d: "^" }];
+    while (q.length > 0) {
+      const { i, j, d } = q.pop()!;
+      if (!inMap(i, j)) {
+        break;
       }
+      if (M[i]![j] === "#") {
+        break;
+      }
+      if (visited2[i]![j]!.has(d)) {
+        return true;
+      }
+      visited2[i]![j]!.add(d);
+      const di = dd[d][0];
+      const dj = dd[d][1];
+      if (inMap(i + di, j + dj) && M[i + di]![j + dj] === "#") {
+        const nd = turnRight(d);
+        q.push({ i, j, d: nd });
+        continue;
+      }
+      q.push({ i: i + di, j: j + dj, d });
     }
+    return false;
   }
-
-  const ss = range(H).map(() => "");
 
   let res = 0;
   for (let i = 0; i < H; ++i) {
     for (let j = 0; j < W; ++j) {
-      if (obss[i]![j]) {
-        ss[i]! += "o";
-      } else {
-        ss[i] += M[i]![j]!;
+      if (i === start[0] && j === start[1]) {
+        continue;
       }
-      res += Number(obss[i]![j]!);
+      if (visited[i]![j]) {
+        M[i]![j] = "#";
+        if (inLoop()) {
+          ++res;
+        }
+        M[i]![j] = ".";
+      }
     }
   }
-
-  fs.writeFileSync("06/tmp.txt", ss.join("\n"));
-
   return res;
 }
