@@ -14,9 +14,9 @@ describe("part01", () => {
 });
 
 describe("part02", () => {
-  test("example", () => {
+  test.only("example", () => {
     const res = solve02("input-example.txt");
-    expect(res).toBe();
+    expect(res).toBe(2858);
   });
   test("input", () => {
     const res = solve02("input.txt");
