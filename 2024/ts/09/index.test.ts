@@ -16,10 +16,14 @@ describe("part01", () => {
 describe("part02", () => {
   test("example", () => {
     const res = solve02("input-example.txt");
-    expect(res).toBe();
+    expect(res).toBe(2858);
+  });
+  test("example2", () => {
+    const res = solve02("input-example-02.txt");
+    expect(res).toBe(7262);
   });
   test("input", () => {
     const res = solve02("input.txt");
-    expect(res).toBe();
+    expect(res).toBe(6390781891880); // 312ms
   });
 });
