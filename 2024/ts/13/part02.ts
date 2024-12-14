@@ -9,8 +9,8 @@ type ButtonType = "A" | "B";
 
 type Button = {
   type: ButtonType;
-  dx: number;
-  dy: number;
+  dx: bigint;
+  dy: bigint;
 };
 
 type ButtonA = Button & {
@@ -22,19 +22,22 @@ type ButtonB = Button & {
 };
 
 type Prize = {
-  x: number;
-  y: number;
+  x: bigint;
+  y: bigint;
 };
 
 const RE_A = /Button\sA:\sX\+(\d+),\sY\+(\d+)/;
 const RE_B = /Button\sB:\sX\+(\d+),\sY\+(\d+)/;
 const RE_PRIZE = /Prize:\sX=(\d+),\sY=(\d+)/;
 
-function gcd(a: number, b: number): number {
-  return b === 0 ? a : gcd(b, a % b);
+function gcd(a: bigint, b: bigint): bigint {
+  return b === 0n ? a : gcd(b, a % b);
 }
 
-export function solve(filename: string): number {
+const offset = 10_000_000_000_000n;
+// 9_007_199_254_740_991
+
+export function solve(filename: string): bigint {
   const fp = path.resolve(path.join(__dirname, filename));
   const content = fs.readFileSync(fp, "utf-8").trim();
   const buttonAs: ButtonA[] = [];
@@ -45,8 +48,8 @@ export function solve(filename: string): number {
     if (m) {
       buttonAs.push({
         type: "A",
-        dx: Number(m[1]!),
-        dy: Number(m[2]!),
+        dx: BigInt(m[1]!),
+        dy: BigInt(m[2]!),
       });
       continue;
     }
@@ -54,38 +57,40 @@ export function solve(filename: string): number {
     if (m) {
       buttonBs.push({
         type: "B",
-        dx: Number(m[1]!),
-        dy: Number(m[2]!),
+        dx: BigInt(m[1]!),
+        dy: BigInt(m[2]!),
       });
       continue;
     }
     m = line.match(RE_PRIZE);
     if (m) {
       prizes.push({
-        x: Number(m[1]!),
-        y: Number(m[2]!),
+        x: BigInt(m[1]!) + offset,
+        y: BigInt(m[2]!) + offset,
       });
     }
   }
   const N = buttonAs.length;
-  let res = 0;
+  let res = 0n;
   for (let i = 0; i < N; ++i) {
     const btnA = buttonAs[i]!;
     const btnB = buttonBs[i]!;
     const prize = prizes[i]!;
     const g = gcd(btnA.dx, btnA.dy);
-    const d = btnB.dx * (btnA.dy / g) - btnB.dy * (btnA.dx / g);
-    const p = prize.x * (btnA.dy / g) - prize.y * (btnA.dx / g);
+    // const d = btnB.dx * (btnA.dy / g) - btnB.dy * (btnA.dx / g);
+    const d = btnB.dx * btnA.dy - btnB.dy * btnA.dx;
+    const p = prize.x * btnA.dy - prize.y * btnA.dx;
+    const mb = p % d;
     const b = p / d;
-    console.log({ g, d, p, b });
-    if (!(Number.isInteger(b) && b >= 0)) {
+    if (mb !== 0n || b < 0) {
       continue;
     }
+    const ma = (prize.x - btnB.dx * b) % btnA.dx;
     const a = (prize.x - btnB.dx * b) / btnA.dx;
-    if (!(Number.isInteger(a) && a >= 0)) {
+    if (ma !== 0n || a < 0) {
       continue;
     }
-    res += 3 * a + b;
+    res += 3n * a + b;
   }
   return res;
 }
