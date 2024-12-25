@@ -1,0 +1,37 @@
+import { test, expect, describe } from "vitest";
+import { solve as solve01, solveExample as solveExample01 } from "./part01.js";
+// import { solve as solve02 } from "./part02.js";
+
+describe("part01", () => {
+  test("example", () => {
+    const res = solveExample01("input-example.txt");
+    expect(res).toEqual([
+      [14, 2],
+      [14, 4],
+      [2, 6],
+      [4, 8],
+      [2, 10],
+      [3, 12],
+      [1, 20],
+      [1, 36],
+      [1, 38],
+      [1, 40],
+      [1, 64],
+    ]);
+  });
+  test("input", () => {
+    const res = solve01("input.txt");
+    expect(res).toBe(1293);
+  });
+});
+
+// describe("part02", () => {
+//   test("example", () => {
+//     const res = solve02("input-example.txt");
+//     expect(res).toBe("6,1");
+//   });
+//   test("input", () => {
+//     const res = solve02("input.txt");
+//     expect(res).toBe("32,55");
+//   });
+// });
