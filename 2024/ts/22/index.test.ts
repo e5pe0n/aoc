@@ -1,7 +1,7 @@
 import { test, expect, describe } from "vitest";
 import { nextSecretGenerator, solve as solve01 } from "./part01.js";
 import { range } from "../lib.js";
-// import { solve as solve02 } from "./part02.js";
+import { solve as solve02 } from "./part02.js";
 
 describe("part01", () => {
   test("example123", () => {
@@ -22,13 +22,13 @@ describe("part01", () => {
   });
 });
 
-// describe("part02", () => {
-//   test("example", () => {
-//     const res = solve02("input-example.txt");
-//     expect(res).toBe("6,1");
-//   });
-//   test("input", () => {
-//     const res = solve02("input.txt");
-//     expect(res).toBe("32,55");
-//   });
-// });
+describe("part02", () => {
+  test("example", () => {
+    const res = solve02("input-example-02.txt");
+    expect(res).toBe(23);
+  });
+  test("input", () => {
+    const res = solve02("input.txt");
+    expect(res).toBe(1449);
+  });
+});
