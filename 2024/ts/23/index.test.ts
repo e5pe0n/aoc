@@ -18,8 +18,8 @@ describe("part02", () => {
     const res = solve02("input-example.txt");
     expect(res).toBe("co,de,ka,ta");
   });
-  test.only("input", () => {
+  test("input", () => {
     const res = solve02("input.txt");
-    expect(res).toBe();
+    expect(res).toBe("ca,dw,fo,if,ji,kg,ks,oe,ov,sb,ud,vr,xr");
   });
 });
