@@ -14,12 +14,12 @@ describe("part01", () => {
 });
 
 describe("part02", () => {
-  test("example", () => {
-    const res = solve02("input-example-02.txt");
-    expect(res).toBe();
-  });
-  test.only("input", () => {
+  // test("example", () => {
+  //   const res = solve02("input-example-02.txt");
+  //   expect(res).toBe(117440);
+  // });
+  test("input", () => {
     const res = solve02("input.txt");
-    expect(res).toBe();
+    expect(res).toBe(236581108670061n);
   });
 });
