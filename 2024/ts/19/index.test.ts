@@ -7,9 +7,9 @@ describe("part01", () => {
     const res = solve01("input-example.txt");
     expect(res).toBe(6);
   });
-  test.only("input", () => {
+  test("input", () => {
     const res = solve01("input.txt");
-    expect(res).toBe();
+    expect(res).toBe(287);
   });
 });
 
