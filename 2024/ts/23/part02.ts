@@ -18,48 +18,29 @@ export function solve(filename: string): string {
     G.set(u, (G.get(u) ?? new Set()).add(v));
     G.set(v, (G.get(v) ?? new Set()).add(u));
   }
-  const GG = new Map<string, string[]>(
-    Array.from(G.entries()).map(([u, vs]) => [u, Array.from(vs)]),
-  );
-  const triSet = new Set<string>();
-  for (const [u1, vs1] of GG) {
-    for (let i = 0; i < vs1.length - 1; ++i) {
-      const u2 = vs1[i]!;
-      const vs2 = GG.get(u2)!;
-      for (let j = i + 1; j < vs1.length; ++j) {
-        if (vs2.includes(vs1[j]!)) {
-          triSet.add([u1, u2, vs1[j]!].sort().join(","));
-        }
+
+  let maxClique: Set<string> = new Set();
+  function bronKerbosh(R: Set<string>, P: Set<string>, X: Set<string>) {
+    if (P.size === 0 && X.size === 0) {
+      if (R.size > maxClique.size) {
+        maxClique = R;
       }
+      return;
+    }
+    for (const v of P) {
+      const Nv = G.get(v)!;
+      bronKerbosh(
+        new Set([...R, v]),
+        new Set([...P].filter((u) => Nv.has(u))),
+        new Set([...X].filter((u) => Nv.has(u))),
+      );
+      P.delete(v);
+      X.add(v);
     }
   }
-  let prevs = Array.from(triSet);
-  let nexts: string[] = [];
-  while (true) {
-    for (let i = 0; i < prevs.length - 1; ++i) {
-      for (let j = i + 1; j < prevs.length; ++j) {
-        const us = prevs[i]!.split(",");
-        const vs = prevs[j]!.split(",");
-        const ws = new Set<string>([...us, ...vs]);
-        if (ws.size - us.length === 1) {
-          const diffs: string[] = [];
-          for (const w of ws) {
-            if (!us.includes(w) || !vs.includes(w)) {
-              diffs.push(w);
-            }
-          }
-          if (G.get(diffs[0]!)?.has(diffs[1]!)) {
-            nexts.push([...ws].sort().join(","));
-          }
-        }
-      }
-    }
-    if (nexts.length === 0) {
-      break;
-    }
-    prevs = Array.from(new Set(nexts));
-    nexts = [];
-  }
-  const res = prevs[0]!;
+
+  bronKerbosh(new Set(), new Set(G.keys()), new Set());
+
+  const res = [...maxClique].sort().join(",");
   return res;
 }
