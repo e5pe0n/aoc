@@ -16,6 +16,20 @@ Av<<A>^>A<A>A<AA>vA^Av<AAA^>A
  <A^A>^^AvvvA
 A<A^A^^>AvvvA
 
+  0
+A<AA^AA^^>AAvvvA
+Av<<A>>^AA<A>AA<AAv>A^AA<vAAA>^A
+A<vA<AA>>^AvAA<^A>AAv<<A>>^AvA^AAv<<A>>^AA<vA>A^A<A>AAv<<A>A>^AAAvA<^A>A
+
+<vA<AA>>^AvAA<^A>Av<<A>>^AvA^Av<<A>>^AA<vA>A^A<A>Av<<A>A>^AAAvA<^A>A
+
+                                             0                           2                                               9                                         A
+                         <                   A                 ^         A                 ^^                >           A                    vvv                  A
+        v       <<       A     >>        ^   A         <       A     >   A         <       AA        v   >   A       ^   A         <   v      AAA     >        ^   A
+   < v  A   <   AA >>  ^ A  v  AA   <  ^ A > A  v <<   A >>  ^ A  v  A ^ A  v <<   A >>  ^ AA   < v  A > A ^ A   <   A > A  v <<   A > A >  ^ AAA  v  A   <  ^ A > A
+v<<A>A>^Av<<A>>^AAvAA<^A>A<vA>^AAv<<A>^A>AvA^A<vA<AA>>^AvAA<^A>A<vA>^A<A>A<vA<AA>>^AvAA<^A>AAv<<A>A>^AvA^A<A>Av<<A>>^AvA^A<vA<AA>>^AvA^AvA<^A>AAA<vA>^Av<<A>^A>AvA^A
+
+
            0
            <         <
   v  <<    A    <    A    <    AA  >  v   A   v  <    AAA
@@ -23,6 +37,9 @@ v<A <AA >^>A v<<A >^>A v<<A >^>AA vA <A ^>A v<A <A >^>AAA
 
 v<A<AA>^>A v<<A>^>A
 
+
+
+580640
 
 379A
 A^A^^<<A>>AvvvA
