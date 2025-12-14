@@ -1,3 +1,4 @@
+use core::num;
 use std::{
     collections::{HashMap, VecDeque},
     fs,
@@ -68,28 +69,64 @@ use std::{
 //     println!("{sum}"); // 512
 // }
 
-fn dfs(xs: &mut Vec<i64>, nss: &Vec<Vec<i64>>, answers: &Vec<i64>) -> Option<i64> {
-    if xs.len() == nss[0].len() {
-        for i in 0..nss.len() {
-            for j in 0..xs.len() {
-                if nss[i][j] * xs[j] != answers[i] {
-                    return None;
-                }
-            }
-        }
-        return Some(xs.iter().sum::<i64>());
+fn combinations(vs: &Vec<usize>, r: usize) -> Vec<Vec<usize>> {
+    let pool = vs.clone();
+    let n = pool.len();
+    if r > n {
+        return Vec::new();
     }
-    for x in 0..=*answers.iter().max().unwrap() {
-        xs.push(x);
-        let res = dfs(xs, nss, answers);
-        if res.is_some() {
+    let mut indices = Vec::from_iter(0..r);
+    let mut res: Vec<Vec<usize>> = vec![
+        indices
+            .iter()
+            .map(|index| {
+                return pool[*index];
+            })
+            .collect(),
+    ];
+    loop {
+        for i in (0..r).rev() {
+            if indices[i] != i + n - r {
+                indices[i] += 1;
+                for j in (i + 1)..r {
+                    indices[j] = indices[j - 1] + 1;
+                }
+                res.push(indices.clone());
+            }
             return res;
         }
-        xs.pop();
     }
-    return None;
 }
 
+// fn get_press_patterns(buttons: &Vec<Vec<i64>>) -> HashMap<Vec<i64>, HashMap<Vec<i64>, i64>> {
+//     let mut press_patterns: HashMap<Vec<i64>, HashMap<Vec<i64>, i64>> = HashMap::new();
+//     for num_pressed_buttons in 0..(buttons.len() + 1) {
+//         for button_combs in combinations((0..buttons.len()).into(), num_pressed_buttons) {
+//             let pattern = vec![0; buttons[0].len()];
+//             for i in 0..buttons[0].len() {
+//                 for b in 0..button_combs.len() {
+//                     if buttons[b][i] > 0 {
+//                         pattern[i] += 1;
+//                     }
+//                 }
+//             }
+//             let parity_pattern = pattern
+//                 .iter()
+//                 .map(|p| {
+//                     return p % 2;
+//                 })
+//                 .collect::<Vec<_>>();
+//             press_patterns.entry(&parity_pattern).and_modify(|e| {
+//                 *e.entry(&pattern).insert_entry(num_pressed_buttons);
+//             });
+//         }
+//     }
+//     return press_patterns;
+// }
+
+// fn dns(buttons: &mut Vec<Vec<i64>>, joltages: &Vec<i64>) -> i64 {}
+
+// https://www.reddit.com/r/adventofcode/comments/1pk87hl/2025_day_10_part_2_bifurcate_your_way_to_victory/
 fn main() {
     let content = fs::read_to_string("input_example.txt").unwrap();
     // let content = fs::read_to_string("input.txt").unwrap();
@@ -105,42 +142,39 @@ fn main() {
         })
         .collect::<Vec<_>>();
     let mut sum = 0i64;
-    for line in lines {
-        let ss = line.split(' ').collect::<Vec<_>>();
-        let buttons = &ss[1..ss.len() - 1]
-            .iter()
-            .map(|s| {
-                let ns = &s[1..s.len() - 1]
-                    .split(',')
-                    .map(|t| return t.parse::<i64>().unwrap())
-                    .collect::<Vec<_>>();
-                return ns.clone();
-            })
-            .collect::<Vec<_>>();
-        let counters = &ss[ss.len() - 1][1..ss[ss.len() - 1].len() - 1]
-            .split(',')
-            .map(|s| {
-                return s.parse::<i64>().unwrap();
-            })
-            .collect::<Vec<_>>();
-        let buttons = buttons
-            .iter()
-            .map(|button| {
-                let mut v = vec![0i64; counters.len()];
-                for b in button {
-                    v[*b as usize] = 1;
-                }
-                v
-            })
-            .collect::<Vec<_>>();
+    // for line in lines {
+    //     let ss = line.split(' ').collect::<Vec<_>>();
+    //     let buttons = &ss[1..ss.len() - 1]
+    //         .iter()
+    //         .map(|s| {
+    //             let ns = &s[1..s.len() - 1]
+    //                 .split(',')
+    //                 .map(|t| return t.parse::<i64>().unwrap())
+    //                 .collect::<Vec<_>>();
+    //             return ns.clone();
+    //         })
+    //         .collect::<Vec<_>>();
+    //     let joltages = &ss[ss.len() - 1][1..ss[ss.len() - 1].len() - 1]
+    //         .split(',')
+    //         .map(|s| {
+    //             return s.parse::<i64>().unwrap();
+    //         })
+    //         .collect::<Vec<_>>();
+    //     let buttons = buttons
+    //         .iter()
+    //         .map(|button| {
+    //             let mut v = vec![0i64; counters.len()];
+    //             for b in button {
+    //                 v[*b as usize] = 1;
+    //             }
+    //             v
+    //         })
+    //         .collect::<Vec<_>>();
 
-        println!("{buttons:?} {counters:?}");
-        // [[0, 0, 0, 1], [0, 1, 0, 1], [0, 0, 1, 0], [0, 0, 1, 1], [1, 0, 1, 0], [1, 1, 0, 0]] [3, 5, 4, 7]
-        // TODO: transpose buttons
-        let mut xs: Vec<i64> = vec![];
-        let presses = dfs(&mut xs, &buttons, counters).unwrap();
+    //     let mut xs: Vec<i64> = vec![];
+    //     let presses = dfs(&mut xs, &buttons, counters).unwrap();
 
-        sum += presses;
-    }
+    //     sum += presses;
+    // }
     println!("{sum}");
 }
